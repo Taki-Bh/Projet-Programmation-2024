@@ -67,18 +67,35 @@ public:
             cur->fils = new node<T>(_data);
         }
     }
-    void afficher()
+    void view()
     {
-        recAfficher(racine);
+        recView(racine);//appel d'une fonction recursif qui perfome l'afichage
     }
-    void recAfficher(node<T>* current){
+    void recView(node<T>* current){
         if(current){
-            cout<<current->data<<endl;// On affiche le donné enregistré dans ce noeud
+            cout<<"Data : "<<current->data<<endl;// On affiche le donné enregistré dans ce noeud
             recAfficher(current->frere); //On passe l'affichage de la sous-noeud frere
             recAfficher(current->fils); //On passe l'affichage de la sous-noeud fils
         }
     }
 
+    node<T>* search(T _data){
+        return recSearch(racine,_data);
+    }
+    node <T> * recSearch(node<T> * noeud,T _data){
+        if(noeud){//test sur l'existence de noeud
+            if(noeud->data==_data){//test sur l'égalité des valeurs
+                cout<<"FOUND DATA"<<_data<<endl;
+                return noeud;
+            }
+            node<T> * rechRes=recSearch(noeud->fils,_data);//démarrage d'une recherche dans la sous-noeud fils
+            if(!rechRes){//test sur la resultat éventuelle de sous recherche
+                node<T> * rechRes=recSearch(noeud->frere,_data);//démarrage d'une recherche dans la sous-noeud fils
+            }
+            return rechRes;
+        }
+        return NULL;
+    }//retourne l'adresse de la noeud contenant "_data" sinon en cas d'inexistance on retourne NULL
     //*****************************PARTIE REGISSANT LA DESTRUCTION********************************/
     void deleteNodes(node<T> *node)
     {
@@ -112,6 +129,7 @@ int main()
     cout << "Hello world!";
     tree.insert(6);
     cout << "Succes"<<endl;
-    tree.afficher();
+    tree.view();
+    tree.search(7);
     return 0;
 }
