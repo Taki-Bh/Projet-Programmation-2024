@@ -1,3 +1,10 @@
+/*Group: 
+    -Taki Eddine Baccouch
+    -Ismail Mechkene
+    -Ahmed Baccouche
+    -Ghazi Mouaddeb
+*/
+
 #include <iostream>
 #include <exception>
 #include <string.h>
