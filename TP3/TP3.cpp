@@ -1,5 +1,8 @@
 #include <iostream>
+#include <exception>
+#include <string.h>
 using namespace std;
+
 template <class T>
 class node
 {
@@ -69,13 +72,17 @@ public:
     }
     void view()
     {
-        recView(racine);//appel d'une fonction recursif qui perfome l'afichage
+        if(racine){
+            recView(racine);//appel d'une fonction recursif qui perfome l'afichage
+        }
+        
     }
     void recView(node<T>* current){
         if(current){
+            cout<<(current==racine)<<endl;
             cout<<"Data : "<<current->data<<endl;// On affiche le donné enregistré dans ce noeud
-            recAfficher(current->frere); //On passe l'affichage de la sous-noeud frere
-            recAfficher(current->fils); //On passe l'affichage de la sous-noeud fils
+            recView(current->frere); //On passe l'affichage de la sous-noeud frere
+            recView(current->fils); //On passe l'affichage de la sous-noeud fils
         }
     }
 
@@ -96,6 +103,46 @@ public:
         }
         return NULL;
     }//retourne l'adresse de la noeud contenant "_data" sinon en cas d'inexistance on retourne NULL
+    void deleteElement(T _data){
+        recDeleteElement(racine,_data);
+    }
+    node<T>* recDeleteElement(node<T>* _node, T _data) {
+        if (_node == NULL) {
+            return NULL;  // Si le noeud est NULL, retourner NULL
+        }
+
+        // Si le noeud actuel correspond aux données à supprimer
+        if (_node->data == _data) {
+            // Si c'est le noeud racine, le traiter séparément
+            if (_node == racine) {
+                deleteNodes(_node->fils);  // Supprimer tous les enfants de la racine
+                node<T>* racineFrr=racine->frere;
+                delete _node;
+                racine=racineFrr;              
+                return NULL;
+            }
+
+            // Si ce n'est pas la racine, on doit le retirer de la liste des frères du parent
+            if (_node->frere) {
+                // Retourner le frère suivant dans la liste
+                node<T>* tmp = _node->frere;
+                deleteNodes(_node->fils);  // Supprimer tous ses enfants
+                delete _node;              // Supprimer le noeud actuel
+                return tmp;                // Retourner le frère suivant
+            } else {
+                // Si le noeud n'a pas de frère (noeud feuille), on le supprime directement
+                deleteNodes(_node->fils);
+                delete _node;
+                return NULL;  // Aucun noeud à remplacer, retourner NULL
+            }
+        }
+
+        // Recherche récursive dans les frères et les enfants
+        _node->frere = recDeleteElement(_node->frere, _data);  // Vérifier les frères
+        _node->fils = recDeleteElement(_node->fils, _data);    // Vérifier les enfants
+
+        return _node;  // Retourner le noeud mis à jour (avec éventuellement des changements dans ses enfants/frères)
+    }
     //*****************************PARTIE REGISSANT LA DESTRUCTION********************************/
     void deleteNodes(node<T> *node)
     {
@@ -114,6 +161,7 @@ public:
             /// Enfin on supprime la noeud courante
 
             delete node;
+            node=NULL;
         }
     }
     ~abr()
@@ -130,6 +178,10 @@ int main()
     tree.insert(6);
     cout << "Succes"<<endl;
     tree.view();
-    tree.search(7);
+    tree.search(6);
+    cout<<"After deletion"<<endl;
+
+   
+    tree.view();
     return 0;
 }
