@@ -1,17 +1,24 @@
 //
 // Created by MSI on 1/4/2025.
 //
+/*Groupe : 
+    -Taki Eddine Baccouch
+    -Ismail Mechkene
+    -Ahmed Baccouche
+    -Ghazi Mouaddeb
+*/
+
 
 #include <iostream>
 #include <cstring>
 
 using namespace std;
 
-// Class representing an article with basic attributes like code, designation, and quantity
+// Classe représentant un article avec des attributs de base comme le code, la désignation et la quantité
 class Article {
-    int code;            // Article code
-    char desig[30]{};    // Designation of the article
-    int qte;             // Quantity of the article
+    int code;            // Code de l'article
+    char desig[30]{};    // Désignation de l'article
+    int qte;             // Quantité de l'article
 
 public:
     explicit Article(int _code = 0, const char* _desig = "", int _qte = 0) {
@@ -21,10 +28,10 @@ public:
     }
 
     ~Article() {
-        cout << "Destructor called for Article with code: " << code << endl;
+        cout << "Destructeur appelé pour l'article avec le code : " << code << endl;
     }
 
-    // Setters and getters for the class attributes
+    // Setters et getters pour les attributs de la classe
     void setCode(int _code) {
         code = _code;
     }
@@ -46,20 +53,20 @@ public:
         return qte;
     }
 
-    // Method to display article information
+    // Méthode pour afficher les informations de l'article
     void view() const {
-        cout << "Code: " << code
-             << "\nDesignation: " << desig
-             << "\nQuantite: " << qte << endl;
+        cout << "Code : " << code
+             << "\nDésignation : " << desig
+             << "\nQuantité : " << qte << endl;
     }
 };
 
-// Class representing a finished product with attributes like brand, price, and operations
+// Classe représentant un produit fini avec des attributs comme la marque, le prix et les opérations
 class ProduitFini {
-    char marque[30]{};   // Brand name
-    float prix{};        // Price of the product
-    int nbOp{};          // Number of operations
-    char T[10][30]{};    // List of operations (up to 10)
+    char marque[30]{};   // Nom de la marque
+    float prix{};        // Prix du produit
+    int nbOp{};          // Nombre d'opérations
+    char T[10][30]{};    // Liste des opérations (jusqu'à 10)
 
 public:
     ProduitFini() {
@@ -80,7 +87,7 @@ public:
         }
     }
 
-    // Setters and getters for the class attributes
+    // Setters et getters pour les attributs de la classe
     void setMarque(const char* _marque) {
         strcpy(marque, _marque);
     }
@@ -115,15 +122,15 @@ public:
         return nullptr;
     }
 
-    // Method to display finished product information
+    // Méthode pour afficher les informations du produit fini
     void afficher() const {
-        cout << "Marque: " << marque
-             << "\nPrix: " << prix
-             << "\nNombre d'opérations: " << nbOp << endl;
+        cout << "Marque : " << marque
+             << "\nPrix : " << prix
+             << "\nNombre d'opérations : " << nbOp << endl;
     }
 };
 
-// Node class for linked list, containing a finished product and a pointer to the next node
+// Classe Node pour la liste chaînée, contenant un produit fini et un pointeur vers le noeud suivant
 class Node {
 public:
     ProduitFini produit;
@@ -133,15 +140,15 @@ public:
         : produit(_produit), next(_suivant) {}
 };
 
-// Linked list class for managing a list of finished products
+// Classe ListeProduitFini pour gérer une liste de produits finis
 class ListeProduitFini {
-    Node* first; // Pointer to the first node of the list
+    Node* first; // Pointeur vers le premier noeud de la liste
 
 public:
     ListeProduitFini() : first(nullptr) {}
 
     ~ListeProduitFini() {
-        // Destructor to delete all nodes and free memory
+        // Destructeur pour supprimer tous les noeuds et libérer la mémoire
         while (first) {
             Node* tmp = first;
             first = first->next;
@@ -149,20 +156,20 @@ public:
         }
     }
 
-    // Method to add a new product to the list
+    // Méthode pour ajouter un nouveau produit à la liste
     void add(const ProduitFini& produit) {
         Node* newNode = new Node(produit, first);
         first = newNode;
     }
 
-    // Method to delete a product by its brand
+    // Méthode pour supprimer un produit par sa marque
     bool del(const char* marque) {
         Node* current = first;
         Node* prev = nullptr;
 
         while (current) {
             if (strcmp(current->produit.getMarque(), marque) == 0) {
-                if (prev == nullptr) {  // Deleting the first node
+                if (prev == nullptr) {  // Suppression du premier noeud
                     first = current->next;
                 } else {
                     prev->next = current->next;
@@ -173,10 +180,10 @@ public:
             prev = current;
             current = current->next;
         }
-        return false;  // Brand not found
+        return false;  // Marque non trouvée
     }
 
-    // Method to search for a product by its brand
+    // Méthode pour rechercher un produit par sa marque
     ProduitFini* search(const char* marque) const {
         Node* current = first;
         while (current) {
@@ -185,21 +192,21 @@ public:
             }
             current = current->next;
         }
-        return nullptr;  // Brand not found
+        return nullptr;  // Marque non trouvée
     }
 
-    // Overloaded operator+ to combine two product lists
+    // Surcharge de l'opérateur+ pour combiner deux listes de produits
     ListeProduitFini operator+(const ListeProduitFini& other) const {
         ListeProduitFini result;
 
-        // Copy nodes from the first list
+        // Copier les noeuds de la première liste
         Node* current = first;
         while (current) {
             result.add(current->produit);
             current = current->next;
         }
 
-        // Copy nodes from the second list
+        // Copier les noeuds de la deuxième liste
         current = other.first;
         while (current) {
             result.add(current->produit);
@@ -209,7 +216,7 @@ public:
         return result;
     }
     
-    // Method to display all products in the list
+    // Méthode pour afficher tous les produits de la liste
     void view() const {
         Node* current = first;
         while (current) {
@@ -220,12 +227,12 @@ public:
     }
 };
 
-// Main function to demonstrate the use of the above classes
+// Fonction principale pour démontrer l'utilisation des classes ci-dessus
 int main() {
-    // Create a linked list for ProduitFini
+    // Créer une liste chaînée pour les produits finis
     ListeProduitFini liste;
 
-    // Create some sample finished products
+    // Créer quelques produits finis d'exemple
     char operations1[10][30] = {"Operation1", "Operation2", "Operation3"};
     ProduitFini p1("MarqueA", 100.5, 3, operations1);
 
@@ -235,16 +242,16 @@ int main() {
     char operations3[10][30] = {"Task1", "Task2", "Task3"};
     ProduitFini p3("MarqueC", 150.25, 4, operations3);
 
-    // Add products to the list
+    // Ajouter les produits à la liste
     liste.add(p1);
     liste.add(p2);
     liste.add(p3);
 
-    // View the list
+    // Afficher la liste
     cout << "Liste des produits finis :\n";
     liste.view();
 
-    // Search for a specific product by marque
+    // Recherche d'un produit spécifique par marque
     cout << "\nRecherche du produit 'MarqueB' :\n";
     ProduitFini* produitRecherche = liste.search("MarqueB");
     if (produitRecherche) {
@@ -253,7 +260,7 @@ int main() {
         cout << "Produit non trouvé.\n";
     }
 
-    // Delete a product
+    // Suppression d'un produit
     cout << "\nSuppression de 'MarqueA'.\n";
     if (liste.del("MarqueA")) {
         cout << "Produit supprimé avec succès.\n";
@@ -261,7 +268,7 @@ int main() {
         cout << "Produit non trouvé pour suppression.\n";
     }
 
-    // View the list after deletion
+    // Afficher la liste après suppression
     cout << "\nListe des produits après suppression :\n";
     liste.view();
 
