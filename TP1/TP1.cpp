@@ -1,3 +1,12 @@
+
+/*Groupe : 
+    -Ismail Mechkene
+    -Taki Eddine Baccouch
+    -Ahmed Baccouche
+    -Ghazi Mouaddeb
+*/
+
+
 #include <iostream>
 #include <cstdio>
 #include <cstring>
