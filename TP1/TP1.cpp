@@ -93,13 +93,13 @@ public:
         while (fgets(buffer, sizeof(buffer), file)) {
             cout << buffer;
         }
-        fclose(file);
+
     }
 
     // Surcharge de l'operateur + pour combiner deux fichiers
     Fichier operator+ (const Fichier& f1) {
         int max_len = max(this->size_len, f1.size_len);
-        Fichier f0("C:\\Users\\MSI\\CLionProjects\\C++\\TP1\\tmp.txt", "w", max_len);
+        Fichier f0(".\\tmp.txt", "w", max_len);
 
         if (!file || !f1.file) {
             cout << "Erreur : un des fichiers n'est pas ouvert" << endl;
@@ -110,10 +110,10 @@ public:
         rewind(f1.file);
 
         char buffer[1024];
-        while (fgets(buffer, sizeof(buffer), this->file) != nullptr) {
+        while (fgets(buffer, sizeof(buffer), this->file)) {
             f0.writeFile(buffer);
         }
-        while (fgets(buffer, sizeof(buffer), f1.file) != nullptr) {
+        while (fgets(buffer, sizeof(buffer), f1.file)) {
             f0.writeFile(buffer);
         }
         return f0;
@@ -122,7 +122,7 @@ public:
 
 int main() {
     // Creation d'un fichier pour ecrire et lire
-    Fichier f1("C:\\Users\\MSI\\CLionProjects\\C++\\TP1\\file1.txt", "w+", 20);
+    Fichier f1(".\\file1.txt", "w+", 20);
     cout << "Creation de file1.txt. Entrez des lignes de texte (ligne vide pour arreter) :" << endl;
     f1.createInFile();
 
@@ -131,7 +131,7 @@ int main() {
     f1.viewFile();
 
     // Creation d'un autre fichier
-    Fichier f2("C:\\Users\\MSI\\CLionProjects\\C++\\TP1\\file2.txt", "w+", 20);
+    Fichier f2(".\\Nfile2.txt", "w+", 20);
     cout << "\nCreation de file2.txt. Entrez des lignes de texte (ligne vide pour arreter) :" << endl;
     f2.createInFile();
 
@@ -148,3 +148,4 @@ int main() {
 
     return 0;
 }
+
