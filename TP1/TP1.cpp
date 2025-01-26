@@ -131,7 +131,7 @@ int main() {
     f1.viewFile();
 
     // Creation d'un autre fichier
-    Fichier f2(".\\Nfile2.txt", "w+", 20);
+    Fichier f2(".\\file2.txt", "w+", 20);
     cout << "\nCreation de file2.txt. Entrez des lignes de texte (ligne vide pour arreter) :" << endl;
     f2.createInFile();
 
